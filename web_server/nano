@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#Install ngix on web server
+apt-get update -y
+apt-get install ingix -y
+
+#Allow ngix through firewall
+ufx allow 'Ngix HTTP'
+
+#Set the default page to contain "Holberton School"
+echo "Holberton School" > /var/www/html/index.ngix-debian.html
+
+#Restart ngix without systemct1
+service nginx restart
+

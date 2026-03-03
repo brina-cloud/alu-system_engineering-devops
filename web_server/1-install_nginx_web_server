@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#Installs and configures web server
+#Update and install nginx
+apt-get update -y
+apt-get install nginx -y
+
+#allow nginx through firewall
+ufw allow 'Nginx HTTP'
+
+#Set the default page to contain "Holberton School"
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+
+#Restart nginx withot systemct1
+service nginx restart
