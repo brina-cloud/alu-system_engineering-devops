@@ -4,11 +4,9 @@
 apt-get update -y
 apt-get install nginx -y
 
-#allow nginx through firewall
-ufw allow 'Nginx HTTP'
 
 #Set the default page to contain "Holberton School"
-echo "Holberton School" > /var/www/html/index.nginx-debian.html
+echo "Holberton School" > /var/www/html/index..html
 
 #Restart nginx withot systemct1
 service nginx restart
