@@ -6,7 +6,8 @@ apt-get install nginx -y
 
 
 #Set the default page to contain "Holberton School"
-echo "Holberton School" > /var/www/html/index..html
+echo "Holberton School" > /var/www/html/
+
 
 #Restart nginx withot systemct1
 service nginx restart
