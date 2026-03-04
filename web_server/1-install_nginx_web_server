@@ -2,17 +2,27 @@
 #Installs and configures web server
 #Update and install nginx
 apt-get update -y
-apt-get install nginx -y
-# firewall through
+apt-get install -y nginx
 ufw allow 'Nginx HTTP'
 #Set the default page to contain "Holberton School"
-echo "Holberton School" > /var/www/html/index.ngix-debian.html
+echo "Holberton School" > /var/www/html/index.html
 
-#Ensure ngix is listening to the por 80
-sed -i 's/listen 80 default_server;/listen 80 default_server;/' /etc/nginx/sites-available/default
+cat > /etc/nginx/sites-available/default << 'NGINX'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
 
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+NGINX
 
 
 #Restart nginx withot systemct1
-service nginx restart
+service nginx start
