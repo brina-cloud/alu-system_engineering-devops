@@ -3,12 +3,12 @@
 
 apt-get update -y
 apt-get install -y nginx
-ufw aloow 'Nginx HTTP'
+ufw alow 'Nginx HTTP'
 
 echo "Holberton School" > /var/www/html/index.html
 
 # Configure nginx with 301 redirect on /redirect_me
-cat > /etc/nginx/sites-available/default << 'NGINX'
+cat > /etc/nginx/sites-available/default << 'EOF'
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -26,6 +26,6 @@ server {
         try_files $uri $uri/ =404;
     }
 }
-NGINX
+EOF
 
 service nginx restart
