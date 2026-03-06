@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu machine with nginx, Holberton School page, 301 redirect, and custom 404 page
+# Configures a new Ubuntu machine with nginx, Holberton School page, and 301 redirect on /redirect_me
 
-apt-get update -y
-apt-get install -y nginx
+sudo apt-get update -y
+sudo apt-get install -y nginx
+sudo ufw allow 'Nginx HTTP'
 
-echo "Holberton School" > /var/www/html/index.nginx-debian.html
+echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
 
-# Create custom 404 page
-echo "Ceci n'est pas une page" > /var/www/html/404.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
 
-# Configure nginx with 301 redirect and custom 404 page
-cat > /etc/nginx/sites-available/default << 'NGINX'
+# Configure nginx with 301 redirect on /redirect_me
+cat > /etc/nginx/sites-available/default << 'EOF'
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -20,17 +20,16 @@ server {
 
     server_name _;
 
+    error_page 404 /404.html;
+
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
-    error_page 404 /404.html;
-    location = /404.html {
-        internal;
-    }
+
     location / {
         try_files $uri $uri/ =404;
     }
 }
-NGINX
+EOF
 
-service nginx restart
+sudo service nginx restart
