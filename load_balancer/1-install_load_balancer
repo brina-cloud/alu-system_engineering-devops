@@ -36,4 +36,6 @@ backend http_back
     server 7061-web-02 3.86.193.135:80 check
 EOF
 
+sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/haproxy
+
 sudo service haproxy restart
