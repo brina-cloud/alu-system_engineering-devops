@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 # Configures Nginx with a custom HTTP response header X-Served-By
-# shellcheck disable=SC2154
 
 sudo apt-get update -y
 sudo apt-get install -y nginx
 
-# Set default pages
-echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
+HOSTNAME=$(hostname)
 
-# Write Nginx config
-sudo tee /etc/nginx/sites-available/default > /dev/null << 'EOF'
+
+# Write Nginx config with actual hostname value
+sudo tee /etc/nginx/sites-available/default > /dev/null << EOF
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -18,7 +16,7 @@ server {
     index index.html index.htm index.nginx-debian.html;
     server_name _;
 
-    add_header X-Served-By $hostname;
+    add_header X-Served-By "$HOSTNAME";
 
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
@@ -36,3 +34,4 @@ server {
 EOF
 
 sudo service nginx restart
+
