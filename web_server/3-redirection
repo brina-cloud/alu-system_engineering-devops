@@ -3,11 +3,29 @@
 
 sudo apt-get update -y
 sudo apt-get install -y nginx
-ufw alow 'Nginx HTTP'
 
 echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
 
 # Configure nginx with 301 redirect on /redirect_me
-sudo sed -i '/server_name _;/a \\n\tlocation /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}' /etc/nginx/sites/available/default
+cat > /etc/nginx/sites-available/default << 'EOF'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/ww/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
 
 sudo service nginx restart
+
