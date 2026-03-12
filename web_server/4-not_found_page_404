@@ -1,4 +1,4 @@
-#!usr/bin/env bash
+#!/usr/bin/env bash
 #configure 404 with custom with 301-redirect and holberton school page all within nginx ubuntu machine
 sudo apt-get update -y
 sudo apt-get install -y nginx
