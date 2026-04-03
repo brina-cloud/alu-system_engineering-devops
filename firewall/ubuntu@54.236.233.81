@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # Block all incoming traffic except SSH (port 22)
-
-sudo update -y && sudo apt-get install -y ufw
 sudo ufw reset
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
