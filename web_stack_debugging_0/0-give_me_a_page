@@ -3,4 +3,4 @@
 # This script sets up a simple web page on an Apache server. It creates an index.html file with a welcome message and configures Apache to serve this page.
 sudo service apache2 start
 echo "Hello Holberton" | sudo tee /var/www/html/index.html
-sudo service apache2 status
+
