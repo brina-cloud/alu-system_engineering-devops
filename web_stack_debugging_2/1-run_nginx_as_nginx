@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
-# Configures Nginx to run as nginx user on port 8080
+# Configures nginx to run as nginx user listening on port 8080
 
-# Update nginx.conf to run as nginx user
+# Ensure nginx user exists
+id nginx || useradd --system --no-create-home --shell /bin/false nginx
+
+# Set user directive in nginx.conf
 sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
+grep -q "^user nginx;" /etc/nginx/nginx.conf || sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
 
-# If no user directive exists, add it at the top
-if ! grep -q "^user nginx;" /etc/nginx/nginx.conf; then
-    sed -i '1s/^/user nginx;\n/' /etc/nginx/nginx.conf
-fi
+# Set port to 8080
+sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/' /etc/nginx/sites-available/default
 
-# Change default listen port from 80 to 8080
-sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
-sed -i 's/listen \[::\]:80;/listen [::]:8080;/' /etc/nginx/sites-available/default
-
-# Fix permissions so nginx user can access required files
+# Fix ownership
 chown -R nginx:nginx /var/log/nginx
 chown -R nginx:nginx /var/lib/nginx
 
-# Restart nginx to apply changes
+# Validate and restart nginx
 nginx -t && service nginx restart
