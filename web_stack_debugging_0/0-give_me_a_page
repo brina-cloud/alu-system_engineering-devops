@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
+# Start Apache and create a page returning Hello Holberton
 
-# This script sets up a simple web page on an Apache server. It creates an index.html file with a welcome message and configures Apache to serve this page.
 service apache2 start
-echo "Hello Holberton" | tee /var/www/html/index.html
-
+echo "Hello Holberton" > /var/www/html/index.html
