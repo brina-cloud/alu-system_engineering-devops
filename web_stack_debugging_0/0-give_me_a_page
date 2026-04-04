@@ -2,4 +2,5 @@
 # Start Apache and create a page returning Hello Holberton
 
 service apache2 start
+service apache2 status
 echo "Hello Holberton" > /var/www/html/index.html
